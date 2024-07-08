@@ -1,14 +1,4 @@
 import DOCS from './help.html'
- 
-// return docs
-if (url.pathname === "/") {
-  return new Response(DOCS, {
-    status: 200,
-    headers: {
-      "content-type": "text/html"
-    }
-  });
-}
 
 addEventListener("fetch", (event) => {
   event.passThroughOnException();
@@ -19,16 +9,16 @@ const dockerHub = "https://registry-1.docker.io";
 
 const routes = {
   // production
-  "docker.http2cloud.win": dockerHub,
-  "quay.http2cloud.win": "https://quay.io",
-  "gcr.http2cloud.win": "https://gcr.io",
-  "k8s-gcr.http2cloud.win": "https://k8s.gcr.io",
-  "k8s.http2cloud.win": "https://registry.k8s.io",
-  "ghcr.http2cloud.win": "https://ghcr.io",
-  "cloudsmith.http2cloud.win": "https://docker.cloudsmith.io",
+  "docker.lixd.xyz": dockerHub,
+  "quay.lixd.xyz": "https://quay.io",
+  "gcr.lixd.xyz": "https://gcr.io",
+  "k8s-gcr.lixd.xyz": "https://k8s.gcr.io",
+  "k8s.lixd.xyz": "https://registry.k8s.io",
+  "ghcr.lixd.xyz": "https://ghcr.io",
+  "cloudsmith.lixd.xyz": "https://docker.cloudsmith.io",
 
   // staging
-  "docker-staging.http2cloud.win": dockerHub,
+  "docker-staging.lixd.xyz": dockerHub,
 };
 
 function routeByHosts(host) {
@@ -53,6 +43,15 @@ async function handleRequest(request) {
         status: 404,
       }
     );
+  }
+  // return docs
+  if (url.pathname === "/") {
+    return new Response(DOCS, {
+      status: 200,
+      headers: {
+        "content-type": "text/html"
+      }
+    });
   }
   const isDockerHub = upstream == dockerHub;
   const authorization = request.headers.get("Authorization");
